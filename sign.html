@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diaries of Kitchen - Sign Up</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+    
+        body {
+          background:  whitesmoke;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          overflow: hidden;
+        }
+    
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+    
+        .box {
+          background: #fff;
+          padding: 40px;
+          border-radius: 12px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+          max-width: 400px;
+          width: 100%;
+        }
+    
+        h2 {
+          text-align: center;
+          color: #333;
+          font-size: 24px;
+          margin-bottom: 30px;
+          font-weight: 600;
+        }
+    
+        .textbox {
+          position: relative;
+          margin-bottom: 20px;
+        }
+    
+        .textbox input {
+          width: 100%;
+          padding: 12px 15px;
+          border: 2px solid #ddd;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+        }
+    
+        .textbox input:focus {
+          border-color: #3498db;
+          outline: none;
+        }
+    
+        button.btn {
+          width: 100%;
+          padding: 12px;
+          background-color: #3498db;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+    
+        button.btn:hover {
+          background-color: #3498db;
+        }
+    
+        .links {
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          color: #666;
+        }
+    
+        .links a {
+          color: #3498db;
+          text-decoration: none;
+        }
+    
+        .links a:hover {
+          text-decoration: underline;
+        }
+    
+        /* Responsive design */
+        @media (max-width: 600px) {
+          .box {
+            padding: 25px;
+          }
+    
+          h2 {
+            font-size: 20px;
+          }
+        }
+      </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h2>Sign Up for Diaries of Kitchen</h2>
+            <form id="signupForm">
+                <div class="textbox">
+                    <input type="text" placeholder="Username" name="username" required>
+                </div>
+                <div class="textbox">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" placeholder="Confirm Password" name="confirm-password" required>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <div id="signupMessage" class="message"></div>
+                <div class="links">
+                    <a href="log.html">Already have an account? Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBlvkOICz_A5o-gNxuGE-X8w6P113-QBTU",
+            authDomain: "diaries-of-kitchen-6638d.firebaseapp.com",
+            projectId: "diaries-of-kitchen-6638d",
+            storageBucket: "diaries-of-kitchen-6638d.firebasestorage.app",
+            messagingSenderId: "69334070886",
+            appId: "1:69334070886:web:461fc15ea48bed8f9cdfa7",
+            measurementId: "G-9SH04G5KDR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        function showMessage(message, isError = false) {
+            const messageDiv = document.getElementById("signupMessage");
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${isError ? "error" : "success"}`;
+            messageDiv.style.display = "block";
+            setTimeout(() => {
+                messageDiv.style.display = "none";
+            }, 5000);
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const email = document.querySelector('input[name="email"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value.trim();
+            const confirmPassword = document.querySelector('input[name="confirm-password"]').value.trim();
+
+            if (!username) {
+                showMessage("Username is required.", true);
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showMessage("Please enter a valid email address.", true);
+                return;
+            }
+            if (password.length < 6) {
+                showMessage("Password must be at least 6 characters.", true);
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage("Passwords do not match.", true);
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    username,
+                    email,
+                    phone: "",
+                    state: "",
+                    district: ""
+                });
+                showMessage("Signup successful! Redirecting...");
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 2000);
+            } catch (error) {
+                showMessage(`Signup failed: ${error.message}`, true);
+            }
+        });
+    </script>
+</body>
+</html>

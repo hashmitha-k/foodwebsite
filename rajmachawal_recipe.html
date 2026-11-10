@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rajma Chawal Recipe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    main {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        max-width: 900px;
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    .recipe-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: black;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .recipe-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        margin-bottom: 2rem;
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe-image {
+        width: 45%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .recipe-image:hover {
+        transform: scale(1.05);
+    }
+
+    .ingredients {
+        width: 50%;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        list-style-type: none;
+    }
+
+    .ingredients li {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .ingredients li:hover {
+        background-color: #ecf0f1;
+        padding-left: 10px;
+    }
+
+    .diet-info {
+        width: 100%;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+    }
+
+    .diet-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .diet-info ul {
+        list-style-type: none;
+        padding-left: 20px;
+    }
+
+    .diet-info li {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .instructions {
+        width: 100%;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+    }
+
+    .instructions ol {
+        padding-left: 20px;
+    }
+
+    .instructions li {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .video-container {
+        text-align: center;
+        margin-bottom: 2rem;
+        width: 100%;
+        max-width: 800px;
+    }
+
+    iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+        text-align: center;
+        background-color: #fff;
+        color: #333;
+        padding: 1rem 0;
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 1200px;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .recipe-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .recipe-image {
+            width: 80%;
+            margin-bottom: 2rem;
+        }
+
+        .ingredients, .instructions, .diet-info {
+            width: 80%;
+            margin-top: 1rem;
+        }
+    }
+
+    .favourite-container {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+    }
+
+    .favourite-button {
+        background-color: #5e1157;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .favourite-button:hover {
+        background-color: #861c7e;
+    }
+
+    .favourite-button.added {
+        background-color: #217892;
+    }
+  </style>
+  <script>
+    const API = "http://127.0.0.1:8000";
+    const RECIPE_ID = 31; // ← Change this number for each recipe file
+
+    function getToken() { return localStorage.getItem("token"); }
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    async function toggleFavourite() {
+        if (!getToken()) { alert("Please log in first!"); window.location.href = "log.html"; return; }
+        const button = document.getElementById("favourite-button");
+        const isAdded = button.classList.contains("added");
+        if (isAdded) {
+            await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "DELETE", headers: authHeaders() });
+            button.textContent = "Add to Favourites";
+            button.classList.remove("added");
+        } else {
+            const res = await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "POST", headers: authHeaders() });
+            if (res.ok) {
+                button.textContent = "Added to Favourites (Click to Remove)";
+                button.classList.add("added");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!getToken()) return;
+        const res = await fetch(`${API}/favorites/`, { headers: authHeaders() });
+        const favs = await res.json();
+        if (favs.some(r => r.id === RECIPE_ID)) {
+            const button = document.getElementById("favourite-button");
+            button.textContent = "Added to Favourites (Click to Remove)";
+            button.classList.add("added");
+        }
+    });
+</script>
+</head>
+<body>
+  <main>
+    <div class="favourite-container">
+      <button id="favourite-button" class="favourite-button" onclick="toggleFavourite()">Add to Favourites</button>
+    </div>
+    <h2 class="recipe-title">Rajma Chawal</h2>
+
+    <div class="recipe-container">
+      <section class="ingredients">
+        <h3>Ingredients</h3>
+        <ul>
+          <li>1 cup kidney beans (rajma), soaked overnight</li>
+          <li>2 cups cooked basmati rice</li>
+          <li>2 medium onions, finely chopped</li>
+          <li>2 tomatoes, pureed</li>
+          <li>1 tsp ginger-garlic paste</li>
+          <li>1/2 tsp turmeric powder</li>
+          <li>1 tsp cumin seeds</li>
+          <li>1 tsp garam masala</li>
+          <li>1 tsp red chili powder</li>
+          <li>2 tbsp oil or ghee</li>
+          <li>Salt to taste</li>
+          <li>Fresh coriander for garnish</li>
+        </ul>
+      </section>
+      <img class="recipe-image" src="https://www.kuchpakrahahai.in/wp-content/uploads/2023/05/Rajma-chawal.jpg" alt="Delicious Rajma Chawal" />
+    </div>
+
+    <section class="instructions">
+      <h3>Instructions</h3>
+      <ol>
+        <li><strong>Boil Rajma:</strong> Pressure cook soaked rajma with salt and 3 cups of water for 4-5 whistles or until soft. Set aside.</li>
+        <li><strong>Prepare Masala:</strong> Heat oil in a pan. Add cumin seeds and let them splutter. Add chopped onions and sauté until golden.</li>
+        <li>Add ginger-garlic paste and sauté for a minute. Then add turmeric, chili powder, and garam masala. Cook until the spices are aromatic.</li>
+        <li><strong>Add Tomato Puree:</strong> Add pureed tomatoes and cook until oil separates from the masala.</li>
+        <li><strong>Add Rajma:</strong> Add the boiled rajma with some of its stock. Simmer for 15–20 minutes for flavors to blend. Mash a few beans to thicken the gravy.</li>
+        <li><strong>Serve:</strong> Garnish with coriander and serve hot with steamed rice.</li>
+      </ol>
+    </section>
+
+    <section class="diet-info">
+      <h3>Dietary Information</h3>
+      <ul>
+        <li><strong>Calories:</strong> 280 kcal per serving</li>
+        <li><strong>Protein:</strong> 10g</li>
+        <li><strong>Fat:</strong> 8g</li>
+        <li><strong>Carbohydrates:</strong> 40g</li>
+        <li><strong>Vegan:</strong> Yes</li>
+        <li><strong>Gluten-Free:</strong> Yes</li>
+        <li><strong>Servings:</strong> 4</li>
+      </ul>
+    </section>
+
+    <section class="video-container">
+      <h3>Watch the Recipe Video</h3>
+      <iframe src="https://www.youtube.com/embed/asY7cq6j0xE" title="Rajma Chawal Recipe Video"></iframe>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Food Courses. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

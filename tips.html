@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Tips for Beginners</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1600x900?text=Tips+Background');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        header:hover {
+            transform: perspective(1000px) rotateX(0deg);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            transform: perspective(1000px) rotateX(0deg);
+            max-width: 900px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .tips-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .tips-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .tips-container:hover {
+            transform: perspective(1000px) rotateX(5deg);
+        }
+
+        .tips-image {
+            width: 45%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .tips-image:hover {
+            transform: scale(1.05);
+        }
+
+        .tips-list {
+            width: 50%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+        }
+
+        .tips-list li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tips-list li:hover {
+            background-color: #ecf0f1;
+            padding-left: 10px;
+        }
+
+        .additional-tips {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            transform: perspective(1000px) rotateX(0deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .additional-tips ul {
+            padding-left: 20px;
+        }
+
+        .additional-tips h3 {
+            color: #2c3e50;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .tips-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tips-image {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+
+            .tips-list, .additional-tips {
+                width: 80%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+    <script>
+        function printTips() {
+            window.print();
+        }
+    </script>
+</head>
+<body>
+   <main>
+    <h2 class="tips-title">Cooking Tips for Beginners</h2>
+
+    <div class="tips-container">
+        <section class="tips-list">
+            <h3>Essential Cooking Tips</h3>
+            <ul>
+                <li><strong>Read the Recipe First:</strong> Before you start cooking, read through the recipe fully. This helps you understand the steps and prevents you from missing important details.</li>
+                <li><strong>Prep All Ingredients Before Cooking:</strong> Measure, chop, and prepare all ingredients before starting to cook. This will make the process much smoother and faster.</li>
+                <li><strong>Invest in Quality Tools:</strong> Sharp knives, sturdy pans, and good cookware can make a huge difference in your cooking experience and results.</li>
+                <li><strong>Season as You Go:</strong> Instead of waiting until the end to add seasoning, add small amounts of salt, pepper, and other spices throughout the cooking process to build layers of flavor.</li>
+                <li><strong>Don’t Overcrowd the Pan:</strong> Give your ingredients enough space to cook properly. If you overcrowd the pan, the food will steam instead of sear.</li>
+                <li><strong>Taste Before Serving:</strong> Always taste your food before serving, and adjust seasoning as necessary. It’s much easier to fix a dish when it's still on the stove!</li>
+            </ul>
+        </section>
+        <img class="tips-image" src="https://images.pexels.com/photos/2403391/pexels-photo-2403391.jpeg?cs=srgb&dl=pexels-yente-van-eynde-1263034-2403391.jpg&fm=jpg" alt="Cooking Tips">
+    </div>
+
+
+
+    <section class="additional-tips">
+        <h3>Common Cooking Mistakes & How to Fix Them</h3>
+        <p>Even experienced cooks can make mistakes! Here’s a guide to fixing some common cooking issues:</p>
+        <ul>
+            <li><strong>Overcooked Meat:</strong> Use a meat thermometer to ensure your meat is cooked to the proper temperature, or let it rest before cutting to retain juices.</li>
+            <li><strong>Overcooked Vegetables:</strong> Avoid overcooking by checking doneness regularly. Steaming is a great way to keep vegetables crisp and colorful.</li>
+            <li><strong>Too Salty:</strong> If your dish is too salty, add a little acidity (lemon juice or vinegar), or dilute it with additional broth or water.</li>
+            <li><strong>Burnt Food:</strong> If your food is burning, reduce the heat, and use a timer to avoid overcooking.</li>
+        </ul>
+    </section>
+
+    <section class="additional-tips">
+        <h3>Improving Your Cooking Skills</h3>
+        <ul>
+            <li><strong>Practice Makes Perfect:</strong> Cooking is a skill that improves with practice. Don’t get discouraged by early mistakes – each dish teaches you something new.</li>
+            <li><strong>Learn Cooking Techniques:</strong> Mastering techniques like sautéing, braising, and searing can take your cooking to the next level.</li>
+            <li><strong>Explore New Recipes:</strong> Trying new recipes and experimenting with different cuisines can help expand your culinary knowledge.</li>
+            <li><strong>Get Inspired by Chefs:</strong> Watch cooking shows, follow chefs online, and read cookbooks to get inspired and learn new tips and tricks.</li>
+        </ul>
+    </section>
+
+    
+</main>
+</body>
+</html>

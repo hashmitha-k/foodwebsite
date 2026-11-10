@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grilled Chicken Wings Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1600x900?text=Grilled+Chicken+Wings+Background');
+            background-size: cover;
+            background-position: center;
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .recipe-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-image {
+            width: 45%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.05);
+        }
+        nav {
+            background-color: var(--white);
+            padding: 1rem 0;
+            margin-top: 70px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        .ingredients {
+            width: 50%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions, .diet-plan, .dietary-info {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+        .favourite-container {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.favourite-button {
+    background-color: #5e1157;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.favourite-button:hover {
+    background-color: #861c7e;
+}
+
+/* Active State - Added to Favourites */
+.favourite-button.added {
+    background-color: #217892;
+}
+
+
+    </style>
+<script>
+    const API = "http://127.0.0.1:8000";
+    const RECIPE_ID = 6; // ← Change this number for each recipe file
+
+    function getToken() { return localStorage.getItem("token"); }
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    async function toggleFavourite() {
+        if (!getToken()) { alert("Please log in first!"); window.location.href = "log.html"; return; }
+        const button = document.getElementById("favourite-button");
+        const isAdded = button.classList.contains("added");
+        if (isAdded) {
+            await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "DELETE", headers: authHeaders() });
+            button.textContent = "Add to Favourites";
+            button.classList.remove("added");
+        } else {
+            const res = await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "POST", headers: authHeaders() });
+            if (res.ok) {
+                button.textContent = "Added to Favourites (Click to Remove)";
+                button.classList.add("added");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!getToken()) return;
+        const res = await fetch(`${API}/favorites/`, { headers: authHeaders() });
+        const favs = await res.json();
+        if (favs.some(r => r.id === RECIPE_ID)) {
+            const button = document.getElementById("favourite-button");
+            button.textContent = "Added to Favourites (Click to Remove)";
+            button.classList.add("added");
+        }
+    });
+</script>
+</head>
+
+<body>
+    <main>
+        <div class="favourite-container">
+            <button id="favourite-button" class="favourite-button" onclick="toggleFavourite()">Add to Favourites</button>
+        </div>
+        <h2 class="recipe-title">Grilled Chicken Wings</h2>
+        <nav>
+            <div class="nav-content">
+                <a href="index.html">Home</a>
+                <a href="course.html">Recipes</a>
+                <a href="fav.html">Favorites</a>
+                <a href="tips.html">Cooking Tips</a>
+               
+            </div>
+        </nav>
+
+        <div class="recipe-container">
+            <section class="ingredients">
+                <h3>Ingredients</h3>
+                <ul>
+                    <li>2 lbs chicken wings</li>
+                    <li>2 tablespoons olive oil</li>
+                    <li>1 teaspoon garlic powder</li>
+                    <li>1 teaspoon smoked paprika</li>
+                    <li>1/2 teaspoon black pepper</li>
+                    <li>1 teaspoon salt</li>
+                    <li>1/4 cup barbecue sauce (optional)</li>
+                </ul>
+            </section>
+            <img class="recipe-image" src="https://example.com/grilled-chicken-wings.jpg" alt="Grilled Chicken Wings">
+        </div>
+
+        <section class="instructions">
+            <h3>Instructions</h3>
+            <ol>
+                <li><strong>Preheat Grill:</strong> Preheat your grill to medium-high heat (about 375°F/190°C).</li>
+                <li><strong>Season Wings:</strong> Toss chicken wings with olive oil, garlic powder, paprika, salt, and pepper.</li>
+                <li><strong>Grill:</strong> Arrange wings on the grill. Cook for 20-25 minutes, turning every 5 minutes until crispy and fully cooked.</li>
+                <li><strong>Optional Sauce:</strong> Brush with barbecue sauce during the last 5 minutes for added flavor.</li>
+                <li><strong>Serve:</strong> Enjoy hot with your favorite dip!</li>
+            </ol>
+        </section>
+
+        <section class="diet-plan">
+            <h3>Diet Plan & Nutritional Information</h3>
+            <p><strong>Serving Size:</strong> 4 pieces</p>
+            <ul>
+                <li><strong>Calories:</strong> 280 kcal</li>
+                <li><strong>Fat:</strong> 18g</li>
+                <li><strong>Carbohydrates:</strong> 2g</li>
+                <li><strong>Protein:</strong> 25g</li>
+                <li><strong>Sodium:</strong> 750mg</li>
+            </ul>
+        </section>
+
+        <section class="dietary-info">
+            <h4>Dietary Information</h4>
+            <ul>
+                <li><strong>Gluten-Free:</strong> Yes (without barbecue sauce containing gluten)</li>
+                <li><strong>Low-Carb:</strong> Yes</li>
+                <li><strong>Dairy-Free:</strong> Yes</li>
+                <li><strong>Nut-Free:</strong> Yes</li>
+            </ul>
+        </section>
+
+        <section class="video-container">
+            <h3>Watch the Recipe Video</h3>
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Grilled Chicken Wings Recipe Video"></iframe>
+        </section>
+    </main>
+</body>
+
+</html>

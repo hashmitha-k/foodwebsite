@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Smoothie Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1600x900?text=Fruit+Smoothie+Background');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .recipe-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-image {
+            width: 45%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.05);
+        }
+
+        .ingredients {
+            width: 50%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+        }
+
+        .ingredients li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ingredients li:hover {
+            background-color: #ecf0f1;
+            padding-left: 10px;
+        }
+
+        .instructions, .diet-plan, .dietary-info {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .diet-plan {
+            background-color: #f9f9f9;
+            margin-top: 2rem;
+        }
+
+        .diet-plan ul {
+            padding-left: 20px;
+        }
+
+        .diet-plan h3 {
+            color: #2c3e50;
+        }
+
+        .dietary-info {
+            background-color: #ecf0f1;
+            margin-top: 2rem;
+        }
+
+        .dietary-info h4 {
+            color: #2c3e50;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .recipe-image {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+
+            .ingredients, .instructions, .diet-plan, .dietary-info {
+                width: 80%;
+                margin-top: 1rem;
+            }
+        }
+        .favourite-container {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.favourite-button {
+    background-color: #5e1157;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.favourite-button:hover {
+    background-color: #861c7e;
+}
+
+/* Active State - Added to Favourites */
+.favourite-button.added {
+    background-color: #217892;
+}
+
+
+    </style>
+     <script>
+    const API = "http://127.0.0.1:8000";
+    const RECIPE_ID = 33; // ← Change this number for each recipe file
+
+    function getToken() { return localStorage.getItem("token"); }
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    async function toggleFavourite() {
+        if (!getToken()) { alert("Please log in first!"); window.location.href = "log.html"; return; }
+        const button = document.getElementById("favourite-button");
+        const isAdded = button.classList.contains("added");
+        if (isAdded) {
+            await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "DELETE", headers: authHeaders() });
+            button.textContent = "Add to Favourites";
+            button.classList.remove("added");
+        } else {
+            const res = await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "POST", headers: authHeaders() });
+            if (res.ok) {
+                button.textContent = "Added to Favourites (Click to Remove)";
+                button.classList.add("added");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!getToken()) return;
+        const res = await fetch(`${API}/favorites/`, { headers: authHeaders() });
+        const favs = await res.json();
+        if (favs.some(r => r.id === RECIPE_ID)) {
+            const button = document.getElementById("favourite-button");
+            button.textContent = "Added to Favourites (Click to Remove)";
+            button.classList.add("added");
+        }
+    });
+</script>
+</head>
+<body>
+   <main>
+    <div class="favourite-container">
+        <button id="favourite-button" class="favourite-button" onclick="toggleFavourite()">Add to Favourites</button>
+    </div>
+    <h2 class="recipe-title">Fruit Smoothie</h2>
+
+    <div class="recipe-container">
+        <section class="ingredients">
+            <h3>Ingredients</h3>
+            <ul>
+                <li>1 banana</li>
+                <li>1/2 cup strawberries</li>
+                <li>1/2 cup blueberries</li>
+                <li>1/2 cup spinach (optional)</li>
+                <li>1 cup almond milk (or any milk of your choice)</li>
+                <li>1 tablespoon honey (optional)</li>
+                <li>1/2 cup Greek yogurt</li>
+                <li>1/4 cup chia seeds or flaxseeds (optional)</li>
+                <li>Ice cubes (optional, for desired thickness)</li>
+            </ul>
+        </section>
+        <img class="recipe-image" src="https://www.allrecipes.com/thmb/t_riPnZmebKHytGtcoN8qeTmO_Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/221261-Peanut-Butter-Banana-Smoothie-DDMFS-4x3-79533eeb04c84b42aae440d643fc9a31.jpg" alt="Smoothie Image">
+    </div>
+
+    <section class="instructions">
+        <h3>Instructions</h3>
+        <ol>
+            <li><strong>Prepare the Ingredients:</strong> Peel the banana, wash the strawberries and blueberries, and gather any optional ingredients (like spinach or seeds).</li>
+            <li><strong>Blend:</strong> Add the banana, strawberries, blueberries, spinach (if using), Greek yogurt, honey, and almond milk into a blender.</li>
+            <li><strong>Blend Until Smooth:</strong> Blend on high until smooth. If you prefer a thicker smoothie, add some ice cubes and blend again.</li>
+            <li><strong>Serve:</strong> Pour the smoothie into a glass and enjoy immediately! Optionally, garnish with a few extra berries or a sprinkle of seeds.</li>
+        </ol>
+    </section>
+
+    <section class="diet-plan">
+        <h3>Diet Plan & Nutritional Information</h3>
+        <p><strong>Serving Size:</strong> 1 glass</p>
+        <ul>
+            <li><strong>Calories:</strong> 200 kcal</li>
+            <li><strong>Fat:</strong> 8g</li>
+            <li><strong>Carbohydrates:</strong> 30g</li>
+            <li><strong>Protein:</strong> 6g</li>
+            <li><strong>Sugar:</strong> 15g</li>
+        </ul>
+        <h4>Diet Tips:</h4>
+        <ul>
+            <li><strong>For a protein boost:</strong> Add a scoop of protein powder or use a high-protein yogurt.</li>
+            <li><strong>For a lower-calorie version:</strong> Use a low-fat yogurt and skip the honey.</li>
+        </ul>
+    </section>
+
+    <section class="dietary-info">
+        <h4>Dietary Information</h4>
+        <ul>
+            <li><strong>Gluten-Free:</strong> Yes</li>
+            <li><strong>Vegetarian:</strong> Yes</li>
+            <li><strong>Vegan:</strong> Yes (if using plant-based yogurt and non-dairy milk)</li>
+            <li><strong>Contains Dairy:</strong> Yes (if using Greek yogurt)</li>
+            <li><strong>Contains Nuts:</strong> Yes (if using almond milk)</li>
+        </ul>
+    </section>
+
+    <section class="video-container">
+        <h3>Watch the Recipe Video</h3>
+        <iframe src="https://www.youtube.com/embed/iWAuLYhDrC0" title="Smoothie Recipe Video"></iframe>
+    </section>
+
+</main>
+</body>
+</html>

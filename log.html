@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diaries of Kitchen - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      animation: fadeIn 0.6s ease-in-out;
+      
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .textbox {
+      margin-bottom: 20px;
+    }
+
+    .textbox input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #dcdde1;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .textbox input:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    button.btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button.btn:hover {
+      background-color: #2980b9;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+
+    .remember-me input {
+      margin-right: 8px;
+    }
+
+    .links {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .links a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .modal-content input {
+      width: 85%;
+      padding: 12px;
+      margin: 10px auto;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      font-size: 15px;
+    }
+
+    .modal-content button {
+      width: 85%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      background-color: #2980b9;
+    }
+
+    .otp-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .otp-container input {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      margin: 5px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #responseMessage {
+      margin-top: 15px;
+      color: #27ae60;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content input,
+      .modal-content button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <div class="box">
+          <h2>Login to Diaries of Kitchen</h2>
+          <form id="loginForm">
+              <div class="textbox">
+                  <input type="email" id="login-email" placeholder="Email" required />
+              </div>
+              <div class="textbox">
+                  <input type="password" id="login-password" placeholder="Password" required />
+              </div>
+              <div class="remember-me">
+                  <input type="checkbox" name="remember" id="remember">
+                  <label for="remember">Remember Me</label>
+              </div>
+              <button type="submit" class="btn" id="login-button">Login</button>
+              <div id="loginMessage" style="display: none; margin-top: 10px;"></div>
+              <div class="links">
+                  <a href="#" id="forgot-password">Forgot Password?</a>
+                  <a href="sign.html">Sign Up</a>
+                  <a href="index.html">Back</a>
+              </div>
+          </form>
+      </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="forgotPasswordModal">
+      <div class="modal-content">
+          <h3>Password Recovery</h3>
+          <p>Enter your registered email address</p>
+          <input type="email" id="email" placeholder="example@mail.com" required>
+          <button id="sendOtpBtn">Send Reset Email</button>
+          <p id="responseMessage" style="display: none;"></p>
+          <button id="closeModal">Close</button>
+      </div>
+  </div>
+
+
+<script>
+    const API = "http://127.0.0.1:8000";
+ 
+    // ── LOGIN ────────────────────────────────────────────────
+ 
+    function showLoginMessage(message, isError = false) {
+      const div = document.getElementById("loginMessage");
+      div.textContent = message;
+      div.style.display = "block";
+      div.style.color = isError ? "#e74c3c" : "#27ae60";
+      div.style.background = isError ? "#fdecea" : "#eafaf1";
+      div.style.padding = "8px";
+      div.style.borderRadius = "6px";
+    }
+ 
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email    = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      const btn      = document.getElementById("login-button");
+ 
+      btn.disabled = true;
+      btn.textContent = "Logging in...";
+ 
+      try {
+        const form = new URLSearchParams();
+        form.append("username", email);
+        form.append("password", password);
+ 
+        const res  = await fetch(`${API}/auth/login`, { method: "POST", body: form });
+        const data = await res.json();
+ 
+        if (!res.ok) {
+          showLoginMessage(data.detail || "Login failed.", true);
+        } else {
+          localStorage.setItem("token", data.access_token);
+          showLoginMessage("Login successful! Redirecting...");
+          setTimeout(() => { window.location.href = "index.html"; }, 1500);
+        }
+      } catch {
+        showLoginMessage("Cannot connect to server. Make sure the backend is running.", true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Login";
+      }
+    });
+ 
+    // ── FORGOT PASSWORD ──────────────────────────────────────
+ 
+    let verifiedEmail = "";
+ 
+    document.getElementById("forgot-password").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("forgotPasswordModal").style.display = "flex";
+    });
+ 
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    document.getElementById("backToStep1").addEventListener("click", () => showStep("step1"));
+ 
+    window.addEventListener("click", (e) => {
+      if (e.target === document.getElementById("forgotPasswordModal")) closeModal();
+    });
+ 
+    function closeModal() {
+      document.getElementById("forgotPasswordModal").style.display = "none";
+      document.getElementById("recoveryEmail").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("confirmNewPassword").value = "";
+      document.getElementById("modalMessage1").textContent = "";
+      document.getElementById("modalMessage2").textContent = "";
+      verifiedEmail = "";
+      showStep("step1");
+    }
+ 
+    function showStep(id) {
+      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+ 
+    // Step 1 - Check if email exists
+    document.getElementById("checkEmailBtn").addEventListener("click", async () => {
+      const email = document.getElementById("recoveryEmail").value.trim();
+      const msg   = document.getElementById("modalMessage1");
+      const btn   = document.getElementById("checkEmailBtn");
+ 
+      if (!email) { msg.style.color = "#e74c3c"; msg.textContent = "Please enter your email."; return; }
+ 
+      btn.disabled = true;
+      btn.textContent = "Checking...";
+      msg.textContent = "";
+ 
+      try {
+        const res  = await fetch(`${API}/auth/check-email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+ 
+        if (!res.ok) {
+          msg.style.color = "#e74c3c";
+          msg.textContent = data.detail || "Email not found.";
+        } else {
+          verifiedEmail = email;
+          showStep("step2");
+        }
+      } catch {
+        msg.style.color = "#e74c3c";
+        msg.textContent = "Cannot connect to server.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Continue";
+      }
+    });
+ 
+    // Step 2 - Set new password
+    document.getElementById("resetPasswordBtn").addEventListener("click", async () => {
+      const newPass  = document.getElementById("newPassword").value.trim();
+      const confirm  = document.getElementById("confirmNewPassword").value.trim();
+      const msg      = document.getElementById("modalMessage2");
+      const btn      = document.getElementById("resetPasswordBtn");
+ 
+      if (newPass.length < 6) { msg.style.color = "#e74c3c"; msg.textContent = "Password must be at least 6 characters."; return; }
+      if (newPass !== confirm) { msg.style.color = "#e74c3c"; msg.textContent = "Passwords do not match."; return; }
+ 
+      btn.disabled = true;
+      btn.textContent = "Resetting...";
+      msg.textContent = "";
+ 
+      try {
+        const res  = await fetch(`${API}/auth/reset-password`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: verifiedEmail, new_password: newPass })
+        });
+        const data = await res.json();
+ 
+        if (!res.ok) {
+          msg.style.color = "#e74c3c";
+          msg.textContent = data.detail || "Reset failed.";
+        } else {
+          msg.style.color = "#27ae60";
+          msg.textContent = "Password reset successfully! You can now log in.";
+          setTimeout(closeModal, 2500);
+        }
+      } catch {
+        msg.style.color = "#e74c3c";
+        msg.textContent = "Cannot connect to server.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Reset Password";
+      }
+    });
+  </script>
+</body>
+</html>

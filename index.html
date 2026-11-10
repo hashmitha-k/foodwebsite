@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Diaries - Your Culinary Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-gray: #f5f6fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .search-container button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .auth-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        nav {
+            background-color: var(--white);
+            padding: 1rem 0;
+            margin-top: 70px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .recipe-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-content {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .recipe-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .recipe-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .slideshow-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .slide {
+            display: none;
+            animation: fade 1.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+        .slide-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .slide-image {
+            flex: 1;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .slide-text {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .slide-nav {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .slide-dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slide-dot.active {
+            background-color: var(--accent-color);
+        }
+
+        .contact-section {
+            background-color: var(--white);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-form {
+            padding: 2rem;
+            background: var(--light-gray);
+            border-radius: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .contact-info i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-container input {
+                width: 100%;
+            }
+
+            .nav-content {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .slide-content {
+                flex-direction: column;
+            }
+
+            .slide-image {
+                width: 100%;
+                height: 300px;
+            }
+
+            .slide-text {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <h1>Kitchen Diaries</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="search" placeholder="Search recipes..." id="search">
+                    <button onclick="searchRecipes()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="auth-links">
+                    <a href="sign.html">Sign Up</a>
+                    <a href="log.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-content">
+            <a href="index.html">Home</a>
+            <a href="course.html">Recipes</a>
+            <a href="fav.html">Favorites</a>
+            <a href="tips.html">Cooking Tips</a>
+            
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h2>Welcome to Kitchen Diaries</h2>
+        <p>Discover a world of delicious recipes, cooking tips, and culinary inspiration. From traditional classics to modern innovations, start your cooking journey with us.</p>
+    </section>
+
+    <section class="slideshow-container">
+        <h2 class="section-title">Top Picks For You</h2>
+        <div class="slide active">
+            <div class="slide-content">
+                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80" alt="Special Pasta" class="slide-image">
+                <div class="slide-text">
+                    <h3 class="recipe-title">Creamy Garlic Pasta</h3>
+                    <p class="recipe-description">A luxurious pasta dish featuring al dente noodles tossed in a rich, creamy garlic sauce with fresh herbs and parmesan cheese.</p>
+                    <a href="garlicpasta_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <img src="https://bellyfull.net/wp-content/uploads/2022/04/Honey-glazed-salmon-blog-2.jpg" alt="Grilled Salmon" class="slide-image">
+                <div class="slide-text">
+                    <h3 class="recipe-title">Honey Glazed Salmon</h3>
+                    <p class="recipe-description">Perfect grilled salmon with a sweet and savory honey glaze, served with roasted vegetables and quinoa.</p>
+                    <a href="glazedsalmon_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content">
+                <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&q=80" alt="French Toast" class="slide-image">
+                <div class="slide-text">
+                    <h3 class="recipe-title">Classic French Toast</h3>
+                    <p class="recipe-description">Golden-brown French toast dusted with powdered sugar and served with fresh berries and maple syrup.</p>
+                    <a href="frenchtoast_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        <div class="slide-nav">
+            <span class="slide-dot active" onclick="currentSlide(1)"></span>
+            <span class="slide-dot" onclick="currentSlide(2)"></span>
+            <span class="slide-dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <section class="recipe-section">
+        <h2 class="section-title">Featured Recipes</h2>
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <img src="https://orikaflavours.com/cdn/shop/articles/lndscpe.jpg?v=1695577046" alt="Chicken Biryani" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Chicken Dum Biryani</h3>
+                    <p class="recipe-description">Traditional Hyderabadi dish infusing rich flavors and aromatic spices.</p>
+                    <a href="chickenbiryani_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <img src="https://i0.wp.com/cookingfromheart.com/wp-content/uploads/2016/04/paneer-tikka-1.jpg?resize=720%2C480&ssl=1" alt="Paneer Tikka" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Paneer Tikka</h3>
+                    <p class="recipe-description">Grilled paneer cubes marinated in spiced yogurt, served with mint chutney.</p>
+                    <a href="paneertikka_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <img src="https://www.secondrecipe.com/wp-content/uploads/2017/08/rajma-chawal-1.jpg" alt="Rajma Chawal" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Rajma Chawal</h3>
+                    <p class="recipe-description">Classic North Indian kidney beans curry served with steamed rice.</p>
+                    <a href="rajmachawal_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <img src="https://www.mybakingaddiction.com/wp-content/uploads/2011/10/lr-0938-700x1050.jpg" alt="Chocolate Cake" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Chocolate Cake</h3>
+                    <p class="recipe-description">Rich and moist chocolate cake with smooth chocolate frosting.</p>
+                    <a href="chocalatecake_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2023/04/butter-chicken-recipe.jpg" alt="Butter Chicken" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Butter Chicken</h3>
+                    <p class="recipe-description">Creamy, rich and mildly spiced chicken curry that's a favorite across the globe.</p>
+                    <a href="butterchicken_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+
+            <div class="recipe-card">
+                <img src="https://c.ndtvimg.com/2023-01/bcdjpkg_pulao_625x300_31_January_23.jpg" alt="Vegetable Pulao" class="recipe-image">
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Vegetable Pulao</h3>
+                    <p class="recipe-description">Fragrant basmati rice cooked with mixed vegetables and aromatic spices.</p>
+                    <a href="vegetablebiryani_recipe.html" class="recipe-button">View Recipe</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                
+                
+                <div style="margin-top: 2rem;">
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Cooking Street, Foodie City</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> hello@kitchendiaries.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <script>
+        function searchRecipes() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            if (searchTerm) {
+                window.location.href = `course.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+
+        let currentSlideIndex = 1;
+        showSlides(currentSlideIndex);
+
+        function currentSlide(n) {
+            showSlides(currentSlideIndex = n);
+        }
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("slide");
+            const dots = document.getElementsByClassName("slide-dot");
+            
+            if (n > slides.length) {currentSlideIndex = 1}
+            if (n < 1) {currentSlideIndex = slides.length}
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                dots[i].classList.remove("active");
+            }
+            
+            slides[currentSlideIndex-1].classList.add("active");
+            dots[currentSlideIndex-1].classList.add("active");
+        }
+
+        setInterval(() => {
+            currentSlide(currentSlideIndex + 1);
+        }, 5000);
+
+        
+    </script>
+</body>
+</html>

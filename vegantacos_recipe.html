@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegan Tacos Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1600x900?text=Taco+Background');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .recipe-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-image {
+            width: 45%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.05);
+        }
+
+        .ingredients {
+            width: 50%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+        }
+
+        .ingredients li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ingredients li:hover {
+            background-color: #ecf0f1;
+            padding-left: 10px;
+        }
+
+        .instructions, .diet-plan {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .diet-plan {
+            background-color: #f9f9f9;
+            margin-top: 2rem;
+        }
+
+        .diet-plan ul {
+            padding-left: 20px;
+        }
+
+        .diet-plan h3 {
+            color: #2c3e50;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .print-button {
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .print-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .recipe-image {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+
+            .ingredients, .instructions, .diet-plan {
+                width: 80%;
+                margin-top: 1rem;
+            }
+        }
+        .favourite-container {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.favourite-button {
+    background-color: #5e1157;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.favourite-button:hover {
+    background-color: #861c7e;
+}
+
+/* Active State - Added to Favourites */
+.favourite-button.added {
+    background-color: #217892;
+}
+
+
+    </style>
+ <script>
+    const API = "http://127.0.0.1:8000";
+    const RECIPE_ID = 38; // ← Change this number for each recipe file
+
+    function getToken() { return localStorage.getItem("token"); }
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    async function toggleFavourite() {
+        if (!getToken()) { alert("Please log in first!"); window.location.href = "log.html"; return; }
+        const button = document.getElementById("favourite-button");
+        const isAdded = button.classList.contains("added");
+        if (isAdded) {
+            await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "DELETE", headers: authHeaders() });
+            button.textContent = "Add to Favourites";
+            button.classList.remove("added");
+        } else {
+            const res = await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "POST", headers: authHeaders() });
+            if (res.ok) {
+                button.textContent = "Added to Favourites (Click to Remove)";
+                button.classList.add("added");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!getToken()) return;
+        const res = await fetch(`${API}/favorites/`, { headers: authHeaders() });
+        const favs = await res.json();
+        if (favs.some(r => r.id === RECIPE_ID)) {
+            const button = document.getElementById("favourite-button");
+            button.textContent = "Added to Favourites (Click to Remove)";
+            button.classList.add("added");
+        }
+    });
+</script>
+</head>
+<body>
+   <main>
+    <div class="favourite-container">
+        <button id="favourite-button" class="favourite-button" onclick="toggleFavourite()">Add to Favourites</button>
+    </div>
+    <h2 class="recipe-title">Vegan Tacos</h2>
+
+    <div class="recipe-container">
+        <section class="ingredients">
+            <h3>Ingredients</h3>
+            <ul>
+                <li>12 small corn tortillas</li>
+                <li>1 cup cooked black beans</li>
+                <li>1 cup corn kernels (fresh or frozen)</li>
+                <li>1 avocado, sliced</li>
+                <li>1/2 red onion, thinly sliced</li>
+                <li>1/2 cup cilantro, chopped</li>
+                <li>1/4 cup lime juice</li>
+                <li>1 teaspoon cumin</li>
+                <li>1 teaspoon chili powder</li>
+                <li>1 tablespoon olive oil</li>
+                <li>Salt and pepper to taste</li>
+                <li>Optional: Hot sauce or salsa for serving</li>
+            </ul>
+        </section>
+        <img class="recipe-image" src="https://myquietkitchen.com/wp-content/uploads/2020/05/vegan-taco-meat-healthy.jpg" alt="Vegan Tacos">
+    </div>
+
+    <section class="instructions">
+        <h3>Instructions</h3>
+        <ol>
+            <li><strong>Cook the Veggies:</strong> Heat olive oil in a pan over medium heat. Add sliced onions and cook until softened, about 5 minutes. Add the corn and cook for an additional 2-3 minutes. Season with cumin, chili powder, salt, and pepper.</li>
+            <li><strong>Warm the Tortillas:</strong> Heat the corn tortillas on a dry skillet or grill for 1-2 minutes per side until warm and slightly charred.</li>
+            <li><strong>Assemble the Tacos:</strong> Place warm tortillas on a plate and top with black beans, corn mixture, avocado slices, red onions, and cilantro. Squeeze lime juice on top.</li>
+            <li><strong>Optional:</strong> Add hot sauce or salsa for an extra kick!</li>
+            <li><strong>Serve:</strong> Serve immediately and enjoy your delicious vegan tacos!</li>
+        </ol>
+    </section>
+
+    <section class="diet-plan">
+        <h3>Diet Plan & Nutritional Information</h3>
+        <p><strong>Serving Size:</strong> 1 taco</p>
+        <ul>
+            <li><strong>Calories:</strong> 150 kcal</li>
+            <li><strong>Fat:</strong> 7g</li>
+            <li><strong>Carbohydrates:</strong> 20g</li>
+            <li><strong>Protein:</strong> 4g</li>
+            <li><strong>Sugar:</strong> 2g</li>
+        </ul>
+        <h4>Diet Tips:</h4>
+        <ul>
+            <li><strong>For a low-fat version:</strong> Use fewer avocado slices or omit the oil in cooking.</li>
+            <li><strong>For a gluten-free version:</strong> Ensure the tortillas are gluten-free.</li>
+        </ul>
+    </section>
+
+    <section class="video-container">
+        <h3>Watch the Recipe Video</h3>
+        <iframe src="https://www.youtube.com/embed/2K17gCjkUKI" title="Vegan Tacos Recipe Video"></iframe>
+    </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salmon Fillet with Lemon Butter Sauce Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1600x900?text=Salmon+Fillet+Background');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        header:hover {
+            transform: perspective(1000px) rotateX(0deg);
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            transform: perspective(1000px) rotateX(0deg);
+            max-width: 900px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .recipe-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .recipe-container:hover {
+            transform: perspective(1000px) rotateX(5deg);
+        }
+
+        .recipe-image {
+            width: 45%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.05);
+        }
+
+        .ingredients {
+            width: 50%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+        }
+
+        .ingredients li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ingredients li:hover {
+            background-color: #ecf0f1;
+            padding-left: 10px;
+        }
+
+        .instructions, .diet-plan {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            transform: perspective(1000px) rotateX(0deg);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .diet-plan {
+            background-color: #f9f9f9;
+            margin-top: 2rem;
+        }
+
+        .diet-plan ul {
+            padding-left: 20px;
+        }
+
+        .diet-plan h3 {
+            color: #2c3e50;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .print-button {
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .print-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Promotion Section Styles */
+        .promotion-section {
+            background-color: #f39c12;
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .promotion-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .promotion-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .promotion-button {
+            background-color: #e67e22;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .promotion-button:hover {
+            background-color: #d35400;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .recipe-image {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+
+            .ingredients, .instructions, .diet-plan {
+                width: 80%;
+                margin-top: 1rem;
+            }
+
+            .promotion-section {
+                width: 80%;
+                padding: 1.5rem;
+            }
+        }
+        .favourite-container {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.favourite-button {
+    background-color: #5e1157;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.favourite-button:hover {
+    background-color: #861c7e;
+}
+
+/* Active State - Added to Favourites */
+.favourite-button.added {
+    background-color: #217892;
+}
+
+
+    </style>
+    <script>
+    const API = "http://127.0.0.1:8000";
+    const RECIPE_ID = 32; // ← Change this number for each recipe file
+
+    function getToken() { return localStorage.getItem("token"); }
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    async function toggleFavourite() {
+        if (!getToken()) { alert("Please log in first!"); window.location.href = "log.html"; return; }
+        const button = document.getElementById("favourite-button");
+        const isAdded = button.classList.contains("added");
+        if (isAdded) {
+            await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "DELETE", headers: authHeaders() });
+            button.textContent = "Add to Favourites";
+            button.classList.remove("added");
+        } else {
+            const res = await fetch(`${API}/favorites/${RECIPE_ID}`, { method: "POST", headers: authHeaders() });
+            if (res.ok) {
+                button.textContent = "Added to Favourites (Click to Remove)";
+                button.classList.add("added");
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!getToken()) return;
+        const res = await fetch(`${API}/favorites/`, { headers: authHeaders() });
+        const favs = await res.json();
+        if (favs.some(r => r.id === RECIPE_ID)) {
+            const button = document.getElementById("favourite-button");
+            button.textContent = "Added to Favourites (Click to Remove)";
+            button.classList.add("added");
+        }
+    });
+</script>
+</head>
+<body>
+
+   <main>
+    <div class="favourite-container">
+        <button id="favourite-button" class="favourite-button" onclick="toggleFavourite()">Add to Favourites</button>
+    </div>
+    <h2 class="recipe-title">Salmon Fillet with Lemon Butter Sauce</h2>
+
+    <div class="recipe-container">
+        <section class="ingredients">
+            <h3>Ingredients</h3>
+            <ul>
+                <li>4 salmon fillets (skin on or off)</li>
+                <li>2 tablespoons olive oil</li>
+                <li>Salt and pepper to taste</li>
+                <li>2 tablespoons butter</li>
+                <li>3 garlic cloves, minced</li>
+                <li>1/4 cup fresh lemon juice</li>
+                <li>1/2 teaspoon lemon zest</li>
+                <li>1 tablespoon fresh parsley, chopped</li>
+                <li>1 tablespoon capers (optional)</li>
+            </ul>
+        </section>
+        <img class="recipe-image" src="data:image/jpeg;base64,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" alt="Salmon Fillet with Lemon Butter Sauce">
+    </div>
+
+    <section class="instructions">
+        <h3>Instructions</h3>
+        <ol>
+            <li><strong>Prepare Salmon:</strong> Season salmon fillets with salt and pepper on both sides.</li>
+            <li><strong>Cook Salmon:</strong> Heat olive oil in a large skillet over medium-high heat. Add salmon fillets, skin-side down (if applicable), and cook for 4-5 minutes per side until golden brown and cooked through. Remove from skillet and set aside.</li>
+            <li><strong>Make Lemon Butter Sauce:</strong> In the same skillet, add butter and melt over medium heat. Add garlic and sauté for about 1 minute until fragrant.</li>
+            <li><strong>Finish Sauce:</strong> Add lemon juice, lemon zest, and capers (if using) to the skillet. Stir to combine, and let the sauce simmer for 2-3 minutes to reduce slightly.</li>
+            <li><strong>Serve:</strong> Place the cooked salmon fillets back in the skillet to coat with the sauce. Garnish with fresh parsley and serve hot with your choice of side (e.g., rice, roasted vegetables, or potatoes).</li>
+        </ol>
+    </section>
+    
+    <section class="diet-plan">
+        <h3>Diet Plan & Nutritional Information</h3>
+        <p><strong>Serving Size:</strong> 1 fillet</p>
+        <ul>
+            <li><strong>Calories:</strong> 350 kcal</li>
+            <li><strong>Fat:</strong> 22g</li>
+            <li><strong>Carbohydrates:</strong> 4g</li>
+            <li><strong>Protein:</strong> 32g</li>
+            <li><strong>Sodium:</strong> 300mg</li>
+        </ul>
+        <h4>Diet Tips:</h4>
+        <ul>
+            <li><strong>For a lower-fat version:</strong> Reduce the amount of butter and use olive oil instead.</li>
+            <li><strong>For a gluten-free version:</strong> Ensure all ingredients are certified gluten-free.</li>
+        </ul>
+    </section>
+
+    <section class="video-container">
+        <h3>Watch the Recipe Video</h3>
+        <iframe src="https://www.youtube.com/embed/ACfeJuZuyxY" title="Salmon Fillet with Lemon Butter Sauce Recipe Video"></iframe>
+    </section>
+</main>
+
+</body>
+</html>
